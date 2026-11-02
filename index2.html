@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Financial Freedom Control Room</title>
+    <style>
+        body { font-family: 'Segoe UI', Arial, sans-serif; background: #0f172a; color: #f8fafc; padding: 15px; max-width: 600px; margin: 0 auto; padding-bottom: 50px; }
+        h1 { text-align: center; color: #38bdf8; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 5px; font-size: 22px; }
+        .subtitle { text-align: center; color: #94a3b8; font-size: 14px; margin-bottom: 25px; }
+        .matrix-box { background: #1e293b; padding: 15px; border-radius: 12px; margin-bottom: 20px; border: 1px solid #334155; box-shadow: 0 4px 6px rgba(0,0,0,0.2); }
+        .matrix-title { font-weight: bold; color: #38bdf8; font-size: 14px; text-transform: uppercase; margin-bottom: 10px; display: flex; justify-content: space-between; }
+        .section-title { font-size: 14px; font-weight: bold; color: #94a3b8; text-transform: uppercase; letter-spacing: 1px; margin: 25px 0 10px 0; border-bottom: 1px solid #334155; padding-bottom: 5px; }
+        .card-container { background: #1e293b; padding: 15px; border-radius: 12px; margin-bottom: 15px; border: 1px solid #334155; border-left: 5px solid #ef4444; position: relative; cursor: pointer; transition: all 0.2s ease; }
+        .card-container:hover { background: #24344d; border-color: #475569; }
+        .card-container.wiped { border-left-color: #10b981; background: #151f32; }
+        .card-container.asset { border-left-color: #0284c7; }
+        .card-container.flow { border-left-color: #a855f7; }
+        .card-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px; }
+        .card-title { font-weight: bold; color: #f1f5f9; font-size: 16px; }
+        .card-date { font-size: 11px; color: #38bdf8; font-weight: bold; background: rgba(56, 189, 248, 0.1); padding: 3px 8px; border-radius: 4px; text-transform: uppercase; }
+        .card-container.flow .card-date { color: #c084fc; background: rgba(168, 85, 247, 0.1); }
+        .card-meta { font-size: 13px; color: #94a3b8; margin-bottom: 12px; display: flex; justify-content: space-between; }
+        .bar-wrapper { background: #020617; border-radius: 10px; height: 14px; overflow: hidden; border: 1px solid #475569; position: relative; margin-bottom: 8px; }
+        .bar-fill { background: linear-gradient(90deg, #ef4444, #f43f5e); height: 100%; width: 100%; transition: all 0.4s ease; }
+        .card-container.wiped .bar-fill { background: #10b981; width: 0% !important; }
+        .card-container.asset .bar-fill { background: linear-gradient(90deg, #0284c7, #38bdf8); }
+        .card-container.flow .bar-fill { background: linear-gradient(90deg, #7c3aed, #a855f7); }
+        .bar-labels { display: flex; justify-content: space-between; font-size: 11px; color: #94a3b8; }
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(2, 6, 23, 0.85); z-index: 1000; justify-content: center; align-items: center; padding: 20px; box-sizing: border-box; }
+        .modal-content { background: #1e293b; border: 1px solid #475569; border-radius: 16px; width: 100%; max-width: 480px; padding: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.5); }
+        .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; border-bottom: 1px solid #334155; padding-bottom: 10px; }
+        .modal-title { font-weight: bold; color: #38bdf8; font-size: 18px; }
+        .close-btn { background: none; border: none; color: #94a3b8; font-size: 24px; cursor: pointer; }
+        .form-group { margin-bottom: 15px; }
+        label { display: block; font-size: 13px; color: #94a3b8; margin-bottom: 5px; text-transform: uppercase; font-weight: 600; }
+        input[type="number"], input[type="date"] { width: 100%; padding: 10px; background: #020617; border: 1px solid #475569; border-radius: 8px; color: #f8fafc; font-size: 14px; box-sizing: border-box; }
+        .submit-btn { width: 100%; padding: 12px; background: linear-gradient(90deg, #0284c7, #38bdf8); border: none; border-radius: 8px; color: #fff; font-weight: bold; font-size: 14px; cursor: pointer; text-transform: uppercase; }
+        .history-section { margin-top: 20px; border-top: 1px solid #334155; padding-top: 15px; max-height: 120px; overflow-y: auto; }
+        .history-item { display: flex; justify-content: space-between; font-size: 13px; padding: 6px 0; border-bottom: 1px solid rgba(51, 65, 85, 0.5); }
+        .del-btn { background: none; border: none; color: #ef4444; font-weight: bold; cursor: pointer; padding-left: 10px; }
+    </style>
+</head>
+<body>
+
+    <h1>Financial Freedom Control Room</h1>
+    <div class="subtitle">Net Worth & Debt Avalanche Allocation Engine</div>
+    
+    <div class="matrix-box">
+        <div class="matrix-title">
+            <span>TOTAL DEBT CLEARED</span>
+            <span id="global-pct">0% CLEAR</span>
+        </div>
+        <div style="background:#020617; border-radius:10px; height:18px; overflow:hidden; border:1px solid #475569;">
+            <div id="global-fill" style="background:linear-gradient(90deg, #0284c7, #38bdf8); height:100%; width:0%; transition:width 0.4s;"></div>
+        </div>
+    </div>
+
+    <div class="section-title">🤝 Capital Support Flow</div>
+    <div id="flows-container"></div>
+
+    <div class="section-title">💰 Stage 1: Debt Avalanche Liabilities</div>
+    <div id="cards-container"></div>
+
+    <div class="section-title">🏦 Wealth Generation Assets</div>
+    <div id="assets-container"></div>
+
+    <div class="modal-overlay" id="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title" id="m-title">Account Details</div>
+                <button class="close-btn" onclick="closeModal()">&times;</button>
+            </div>
+            <div class="form-group" id="due-day-group">
+                <label id="due-day-label">Set Monthly Due Date (Day of Month)</label>
+                <input type="number" id="pay-due-day" min="1" max="31" placeholder="e.g. 15">
+            </div>
+            <div class="form-group">
+                <label id="input-amount-label">Log Manual Payment ($)</label>
+                <input type="number" id="pay-amount" placeholder="0.00">
+            </div>
+            <div class="form-group">
+                <label>Transaction Date</label>
+                <input type="date" id="pay-date">
+            </div>
+            <button class="submit-btn" onclick="submitForm()">Update Account</button>
+            <div class="history-section">
+                <label>Activity Ledger</label>
+                <div id="history-list"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const initialDebts = [
+            { id: "c1", type: "debt", name: "1. Mission Lane Black", start: 1410, bal: 1410, apr: "33.99%", date: "Wiped Jan 2027", pay: 1182.33, dueDay: 5, history: [] },
+            { id: "c2", type: "debt", name: "2. Mission Lane Regular", start: 2520, bal: 2520, apr: "28.74%", date: "Wiped Mar 2027", pay: 87.00, dueDay: 12, history: [] },
+            { id: "c3", type: "debt", name: "3. Ollo Card", start: 1460, bal: 1460, apr: "27.24%", date: "Wiped May 2027", pay: 34.00, dueDay: 15, history: [] },
+            { id: "c4", type: "debt", name: "4. Happen Bank Loan", start: 1720, bal: 1720, apr: "25.49%", date: "Wiped Jul 2027", pay: 252.00, dueDay: 18, history: [] },
+            { id: "c5", type: "debt", name: "5. OneMain Financial", start: 7626, bal: 7626, apr: "24.49%", date: "Wiped Nov 2027", pay: 246.00, dueDay: 22, history: [] },
+            { id: "c6", type: "debt", name: "6. Affirm Financing", start: 777, bal: 777, apr: "Fixed Fee", date: "Wiped Dec 2027", pay: 260.00, dueDay: 1, history: [] },
+            { id: "c7", type: "debt", name: "7. PayPal Credit", start: 1580, bal: 1580, apr: "Closed", date: "Wiped Feb 2028", pay: 30.00, dueDay: 25, history: [] },
+            { id: "c8", type: "debt", name: "8. Capital One", start: 3138, bal: 3138, apr: "0% Promo", date: "Freedom May 2028", pay: 32.00, dueDay: 28, history: [] }
+        ];
+
+        const initialAssets = [
+            { id: "a1", type: "asset", name: "High-Yield Savings Account", start: 10000, bal: 0, apr: "Core Reserve", date: "Liquid Cash", pay: 0, dueDay: 0, history: [] },
+            { id: "a2", type: "asset", name: "Robinhood Portfolio", start: 25000, bal: 0, apr: "Market Capital", date: "Stocks/Crypto", pay: 0, dueDay: 0, history: [] },
+            { id: "a3", type: "asset", name: "Primary 401(k) Account", start: 50000, bal: 0, apr: "Retirement 1", date: "Employer Pre-Tax", pay: 0, dueDay: 0, history: [] },
+            { id: "a4", type: "asset", name: "Secondary 401(k) Account", start: 20000, bal: 0, apr: "Retirement 2", date: "Past Corporate Asset", pay: 0, dueDay: 0, history: [] },
+            { id: "a5", type: "asset", name: "Health Savings Account (HSA)", start: 50000, bal: 0, apr: "Medical Wealth", date: "Triple Tax-Advantaged", pay: 0, dueDay: 0, history: [] }
+        ];
+
+        const initialFlows = [
+            { id: "f1", type: "flow", name: "Family Financial Aid", start: 12000, bal: 0, apr: "$1,000 / Month Commitment", date: "Somatic Tribe Support", pay: 1000, dueDay: 1, history: [] }
+        ];
+
+        let debts = JSON.parse(localStorage.getItem('user_debts_v4')) || initialDebts;
+        let assets = JSON.parse(localStorage.getItem('user_assets_v4')) || initialAssets;
+        let flows = JSON.parse(localStorage.getItem('user_flows_v4')) || initialFlows;
+        let activeId = null;
+        let activeType = null;
+
+        function checkAutoPayments() {
+            const today = new Date();
+            const currentDay = today.getDate();
+            let updated = false;
+
+            debts.forEach(d => {
+if (d.bal > 0 && d.dueDay === currentDay) {
+const currentMonthYear = today.getMonth() + "-" + today.getFullYear();
+const alreadyPaidThisMonth = d.history.some(h => h.monthYear === currentMonthYear && h.type === "Auto");
+if (!alreadyPaidThisMonth) {
+const actualPay = Math.min(d.pay, d.bal);
+d.bal = Math.max(0, d.bal - actualPay);
+d.history.unshift({
+id: Date.now() + Math.random().toString(36).substr(2, 5),
+date: today.toISOString().split('T')[0],
+amt: actualPay,
+monthYear: currentMonthYear,
+type: "Auto"
+});
+updated = true;
+}
+}
+});
+flows.forEach(f => {
+if (f.dueDay === currentDay) {
+const currentMonthYear = today.getMonth() + "-" + today.getFullYear();
+const alreadyLoggedThisMonth = f.history.some(h => h.monthYear === currentMonthYear && h.type === "Auto");
+if (!alreadyLoggedThisMonth) {
+f.bal += f.pay;
+f.history.unshift({
+id: Date.now() + Math.random().toString(36).substr(2, 5),
+date: today.toISOString().split('T')[0],
+amt: f.pay,
+monthYear: currentMonthYear,
+type: "Auto"
+});
+updated = true;
+}
+}
+});
+if (updated) renderCards();
+}
+function renderCards() {
+let totalStart = 0, totalCurrent = 0;
+// Render Flows
+const flowContainer = document.getElementById('flows-container');
+flowContainer.innerHTML = '';
+flows.forEach(f => {
+const card = document.createElement('div');
+card.className = "card-container flow";
+card.onclick = () => openModal(f.id, "flow");
+card.innerHTML = <div class="card-header"> <div class="card-title">${f.name}</div> <div class="card-date">${f.date}</div> </div> <div class="card-meta"><span>${f.apr}</span><span style="color:#c084fc;">Auto-Log: Day ${f.dueDay}</span></div> <div class="bar-wrapper"><div class="bar-fill" style="width: ${Math.min((f.bal / f.start) * 100, 100)}%;"></div></div> <div class="bar-labels"><span>Total Shared YTD: $${f.bal}</span><span>Annual Goal: $${f.start}</span></div>;
+flowContainer.appendChild(card);
+});
+// Avalanche rolling mechanics
+const isTarget1Wiped = debts.find(x => x.id === "c1").bal <= 0;
+if (isTarget1Wiped && debts.find(x => x.id === "c2").pay === 87.00) {
+debts.find(x => x.id === "c2").pay = 1269.33;
+}
+// Render Debts
+const debtContainer = document.getElementById('cards-container');
+debtContainer.innerHTML = '';
+debts.forEach(d => {
+totalStart += d.start;
+totalCurrent += d.bal;
+const pct = d.start > 0 ? Math.round((d.bal / d.start) * 100) : 0;
+const isWiped = d.bal <= 0;
+const card = document.createElement('div');
+card.className = card-container ${isWiped ? 'wiped' : ''};
+card.onclick = () => openModal(d.id, "debt");
+card.innerHTML = <div class="card-header"> <div class="card-title">${d.name}</div> <div class="card-date">${d.date}</div> </div> <div class="card-meta"> <span>APR: ${d.apr} | Targeted Pay: $${d.pay.toFixed(2)}/mo</span> <span style="color:#38bdf8;">Due: Day ${d.dueDay}</span> </div> <div class="bar-wrapper"><div class="bar-fill" style="width: ${isWiped ? 0 : pct}%;"></div></div> <div class="bar-labels"><span>Current: $${Math.round(d.bal)}</span><span>Target: $0</span></div>;
+debtContainer.appendChild(card);
+});
+// Render Assets
+const assetContainer = document.getElementById('assets-container');
+assetContainer.innerHTML = '';
+assets.forEach(a => {
+const pct = a.start > 0 ? Math.round((a.bal / a.start) * 100) : 0;
+const card = document.createElement('div');
+card.className = "card-container asset";
+card.onclick = () => openModal(a.id, "asset");
+card.innerHTML = <div class="card-header"> <div class="card-title">${a.name}</div> <div class="card-date">${a.date}</div> </div> <div class="card-meta"><span>${a.apr}</span><span style="color:#0ea5e9;">Asset Pool</span></div> <div class="bar-wrapper"><div class="bar-fill" style="width: ${Math.min(pct, 100)}%;"></div></div> <div class="bar-labels"><span>Current Balance: $${a.bal}</span><span>Milestone Target: $${a.start}</span></div>;
+assetContainer.appendChild(card);
+});
+const globalClear = totalStart - totalCurrent;
+const globalPct = totalStart > 0 ? Math.round((globalClear / totalStart) * 100) : 100;
+document.getElementById('global-fill').style.width = globalPct + '%';
+document.getElementById('global-pct').innerText = globalPct + '% CLEAR';
+localStorage.setItem('user_debts_v4', JSON.stringify(debts));
+localStorage.setItem('user_assets_v4', JSON.stringify(assets));
+localStorage.setItem('user_flows_v4', JSON.stringify(flows));
+}
+function openModal(id, type) {
+activeId = id;
+activeType = type;
+let d;
+if (type === "debt") d = debts.find(x => x.id === id);
+if (type === "asset") d = assets.find(x => x.id === id);
+if (type === "flow") d = flows.find(x => x.id === id);
+document.getElementById('m-title').innerText = d.name;
+document.getElementById('pay-amount').value = '';
+document.getElementById('pay-date').value = new Date().toISOString().split('T')[0];
+if (type === "asset") {
+document.getElementById('due-day-group').style.display = 'none';
+document.getElementById('input-amount-label').innerText = "Add/Adjust Balance Amount ($)";
+} else if (type === "flow") {
+document.getElementById('due-day-group').style.display = 'block';
+document.getElementById('due-day-label').innerText = "Set Monthly Track Day";
+document.getElementById('pay-due-day').value = d.dueDay;
+document.getElementById('input-amount-label').innerText = "Log Extra Financial Support ($)";
+} else {
+document.getElementById('due-day-group').style.display = 'block';
+document.getElementById('due-day-label').innerText = "Set Monthly Due Date (Day of Month)";
+document.getElementById('pay-due-day').value = d.dueDay;
+document.getElementById('input-amount-label').innerText = "Log Manual Payment ($)";
+}
+const hList = document.getElementById('history-list');
+hList.innerHTML = d.history.length === 0 ? 'No transaction history.' : '';
+d.history.forEach(h => {
+const color = type === "asset" || type === "flow" ? "#10b981" : "#ef4444";
+const prefix = type === "asset" || type === "flow" ? "+$" : "-$";
+hList.innerHTML +=  <div class="history-item"> <span>${h.date} (${h.type || 'Manual'})</span> <span> <span style="color:${color};">${prefix}${h.amt.toFixed(2)}</span> <button class="del-btn" onclick="deleteHistory(event, '${h.id}')">&times;</button> </span> </div>;
+});
+document.getElementById('modal').style.display = 'flex';
+}
+function closeModal() { document.getElementById('modal').style.display = 'none'; }
+function deleteHistory(event, historyId) {
+event.stopPropagation();
+let d;
+if (activeType === "debt") d = debts.find(x => x.id === activeId);
+if (activeType === "asset") d = assets.find(x => x.id === activeId);
+if (activeType === "flow") d = flows.find(x => x.id === activeId);
+const itemIndex = d.history.findIndex(h => h.id === historyId);
+if (itemIndex > -1) {
+if (activeType === "debt") d.bal += d.history[itemIndex].amt;
+else d.bal = Math.max(0, d.bal - d.history[itemIndex].amt);
+d.history.splice(itemIndex, 1);
+renderCards();
+closeModal();
+}
+}
+function submitForm() {
+const amt = parseFloat(document.getElementById('pay-amount').value);
+const date = document.getElementById('pay-date').value;
+const newDueDay = parseInt(document.getElementById('pay-due-day').value);
+let d;
+if (activeType === "debt") d = debts.find(x => x.id === activeId);
+if (activeType === "asset") d = assets.find(x => x.id === activeId);
+if (activeType === "flow") d = flows.find(x => x.id === activeId);
+if (activeType !== "asset" && newDueDay >= 1 && newDueDay <= 31) {
+d.dueDay = newDueDay;
+}
+if (amt && amt > 0 && date) {
+const today = new Date(date);
+if (activeType === "debt") {
+d.bal = Math.max(0, d.bal - amt);
+} else {
+d.bal += amt;
+}
+d.history.unshift({
+id: Date.now() + Math.random().toString(36).substr(2, 5),
+date,
+amt,
+monthYear: today.getMonth() + "-" + today.getFullYear(),
+type: "Manual"
+});
+}
+renderCards();
+closeModal();
+}
+checkAutoPayments();
+renderCards();
+setInterval(checkAutoPayments, 3600000);
