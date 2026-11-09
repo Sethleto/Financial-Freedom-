@@ -1,13 +1,9 @@
-<!-- ========================================== -->
-<!-- PHASE 1: REVOLVING CREDIT CLEANSE          -->
-<!-- Save as: phase1_cleanse.html               -->
-<!-- ========================================== -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Phase 1: Revolving Credit Cleanse</title>
+    <title>Phase 1: Revolving Credit Cleanse with Metrics</title>
     <style>
         body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif; background-color: #f4f6f9; color: #333; padding: 20px; line-height: 1.4; }
         .container { max-width: 750px; margin: 0 auto; background: #ffffff; padding: 25px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
@@ -18,8 +14,10 @@
         .month-header { background-color: #1e3a8a; color: white; padding: 10px 15px; font-weight: bold; font-size: 15px; }
         .week-card { padding: 15px; border-bottom: 1px solid #e5e7eb; background-color: #fafafa; }
         .week-card:last-child { border-bottom: none; }
-        .week-title { font-weight: bold; color: #374151; font-size: 14px; margin-bottom: 8px; display: flex; justify-content: space-between; }
-        .saving-tag { color: #16a34a; font-weight: bold; font-size: 12px; background: #dcfce7; padding: 2px 6px; border-radius: 4px; }
+        .week-title { font-weight: bold; color: #374151; font-size: 14px; margin-bottom: 4px; display: flex; justify-content: space-between; }
+        .metrics-bar { display: flex; justify-content: space-between; background: #f3f4f6; padding: 4px 10px; border-radius: 4px; font-size: 12px; margin-bottom: 10px; border: 1px solid #e5e7eb; }
+        .debt-metric { color: #b91c1c; font-weight: bold; }
+        .savings-metric { color: #15803d; font-weight: bold; }
         .todo-item { display: flex; align-items: flex-start; margin-bottom: 8px; font-size: 13px; }
         .todo-item input[type="checkbox"] { margin-right: 10px; margin-top: 2px; width: 15px; height: 15px; cursor: pointer; }
         .amount { font-weight: bold; color: #dc2626; }
@@ -30,58 +28,98 @@
 <body>
 <div class="container">
     <h1>⚡ Phase 1: Revolving Credit Cleanse</h1>
-    <div class="subtitle">Months 1 - 3 • November 2026 – January 2027</div>
+    <div class="subtitle">Months 1 - 3 • Tracking Balance & Savings Projections</div>
 
     <div class="protocol-box">
-        <strong>💼 Pocket Allocation Rule:</strong> From your weekly $1,116.00 pay, <b>keep $669.23</b> for structural living costs, family help, and savings ($75). Your weekly debt payload target is <b>$446.77</b>.
+        <strong>💼 Pocket Allocation Rule:</strong> Keep <b>$669.23</b> for structural needs/support. Your active weekly debt payload target is <b>$446.77</b>.
     </div>
 
     <!-- NOVEMBER 2026 -->
     <div class="month-section">
-        <div class="month-header">November 2026 — Catch-Up & Avalanche Ignition</div>
+        <div class="month-header">November 2026 — Catch-Up & Ignition</div>
+        
         <div class="week-card">
-            <div class="week-title"><span>Week 1 (Wednesday, Nov 11)</span> <span class="saving-tag">+$75 Weekly Savings Built</span></div>
-            <div class="todo-item"><input type="checkbox"><div><b>Affirm (Overdue Missed 11/6):</b> Pay <span class="amount">$260.00</span> immediately to catch up.</div></div>
-            <div class="todo-item"><input type="checkbox"><div><b>Mission Lane Black (Due Nov 13):</b> Pay remaining payload pool <span class="amount">$186.77</span> via manual push.</div></div>
+            <div class="week-title"><span>Week 1 (Wednesday, Nov 11)</span></div>
+            <div class="metrics-bar">
+                <span>📉 Est. Debt Remaining: <span class="debt-metric">$19,784.06</span></span>
+                <span>💰 Total Bank Savings: <span class="savings-metric">$75.00</span></span>
+            </div>
+            <div class="todo-item"><input type="checkbox"><div><b>Affirm (Overdue Catch-up):</b> Pay <span class="amount">$260.00</span> immediately.</div></div>
+            <div class="todo-item"><input type="checkbox"><div><b>Mission Lane Black (Due Nov 13):</b> Pay remaining payload pool <span class="amount">$186.77</span>.</div></div>
         </div>
+
         <div class="week-card">
-            <div class="week-title"><span>Week 2 (Wednesday, Nov 18)</span> <span class="saving-tag">+$75 Weekly Savings Built</span></div>
+            <div class="week-title"><span>Week 2 (Wednesday, Nov 18)</span></div>
+            <div class="metrics-bar">
+                <span>📉 Est. Debt Remaining: <span class="debt-metric">$19,337.29</span></span>
+                <span>💰 Total Bank Savings: <span class="savings-metric">$150.00</span></span>
+            </div>
             <div class="todo-item"><input type="checkbox"><div><b>Ollo (Due Nov 18):</b> Pay standard minimum due <span class="amount">$34.00</span>.</div></div>
-            <div class="todo-item"><input type="checkbox"><div><b>Mission Lane Black:</b> Pay final trailing balance <span class="amount">$25.23</span>. 🎉 <b>Card Zeroed & Closed!</b></div></div>
-            <div class="todo-item"><input type="checkbox"><div><b>Mission Lane Standard:</b> Send full remaining payload surplus <span class="amount">$387.54</span>.</div></div>
+            <div class="todo-item"><input type="checkbox"><div><b>Mission Lane Black:</b> Pay final trailing balance <span class="amount">$25.23</span>. 🎉 <b>Card Closed!</b></div></div>
+            <div class="todo-item"><input type="checkbox"><div><b>Mission Lane Standard:</b> Send remaining payload surplus <span class="amount">$387.54</span>.</div></div>
         </div>
+
         <div class="week-card">
-            <div class="week-title"><span>Week 3 (Wednesday, Nov 25)</span> <span class="saving-tag">+$75 Weekly Savings Built</span></div>
-            <div class="todo-item"><input type="checkbox"><div><b>PayPal (Due Nov 25):</b> Pay minimum due <span class="amount">$30.00</span>.</div></div>
-            <div class="todo-item"><input type="checkbox"><div><b>Happen Bank (Due Nov 26):</b> Pay minimum due <span class="amount">$252.00</span>.</div></div>
-            <div class="todo-item"><input type="checkbox"><div><b>Capital One (Due Nov 27):</b> Pay minimum due <span class="amount">$32.00</span>.</div></div>
-            <div class="todo-item"><input type="checkbox"><div><b>OneMain Financial (Due Nov 28):</b> Pay full structural minimum due <span class="amount">$246.02</span> <i>($132.77 from debt payload + $113.25 from fixed monthly needs margin)</i>.</div></div>
+            <div class="week-title"><span>Week 3 (Wednesday, Nov 25)</span></div>
+            <div class="metrics-bar">
+                <span>📉 Est. Debt Remaining: <span class="debt-metric">$18,890.52</span></span>
+                <span>💰 Total Bank Savings: <span class="savings-metric">$225.00</span></span>
+            </div>
+            <div class="todo-item"><input type="checkbox"><div><b>PayPal (Due Nov 25):</b> Pay minimum <span class="amount">$30.00</span>.</div></div>
+            <div class="todo-item"><input type="checkbox"><div><b>Happen Bank (Due Nov 26):</b> Pay minimum <span class="amount">$252.00</span>.</div></div>
+            <div class="todo-item"><input type="checkbox"><div><b>Capital One (Due Nov 27):</b> Pay minimum <span class="amount">$32.00</span>.</div></div>
+            <div class="todo-item"><input type="checkbox"><div><b>OneMain Financial (Due Nov 28):</b> Pay full required minimum <span class="amount">$246.02</span> <i>($132.77 from debt pool + $113.25 from bills cushion)</i>.</div></div>
         </div>
     </div>
 
     <!-- DECEMBER 2026 -->
     <div class="month-section">
         <div class="month-header">December 2026 — Avalanche Build</div>
+        
         <div class="week-card">
-            <div class="week-title"><span>Week 4 (Wednesday, Dec 2)</span> <span class="saving-tag">+$75 Weekly Savings Built</span></div>
-            <div class="todo-item"><input type="checkbox"><div><b>Fixed Monthly Outflows:</b> Disburse <span class="amount neutral">$1,000 Rent</span> and send <span class="amount neutral">$1,000 Family Support</span> from holding pool.</div></div>
-            <div class="todo-item"><input type="checkbox"><div><b>Mission Lane Standard (Due Dec 4):</b> Fund full avalanche payload <span class="amount">$446.77</span>.</div></div>
+            <div class="week-title"><span>Week 4 (Wednesday, Dec 2)</span></div>
+            <div class="metrics-bar">
+                <span>📉 Est. Debt Remaining: <span class="debt-metric">$18,745.25</span></span>
+                <span>💰 Total Bank Savings: <span class="savings-metric">$300.00</span></span>
+            </div>
+            <div class="todo-item"><input type="checkbox"><div><b>Fixed Outflows:</b> Disburse <span class="amount neutral">$1,000 Rent</span> and send <span class="amount neutral">$1,000 Family Support</span>.</div></div>
+            <div class="todo-item"><input type="checkbox"><div><b>Mission Lane Standard (Due Dec 4):</b> Fund full payload <span class="amount">$446.77</span>.</div></div>
         </div>
+
         <div class="week-card">
-            <div class="week-title"><span>Week 5 (Wednesday, Dec 9)</span> <span class="saving-tag">+$75 Weekly Savings Built</span></div>
+            <div class="week-title"><span>Week 5 (Wednesday, Dec 9)</span></div>
+            <div class="metrics-bar">
+                <span>📉 Est. Debt Remaining: <span class="debt-metric">$18,298.48</span></span>
+                <span>💰 Total Bank Savings: <span class="savings-metric">$375.00</span></span>
+            </div>
             <div class="todo-item"><input type="checkbox"><div><b>Mission Lane Standard:</b> Pay full payload <span class="amount">$446.77</span>.</div></div>
         </div>
+
         <div class="week-card">
-            <div class="week-title"><span>Week 6 (Wednesday, Dec 16)</span> <span class="saving-tag">+$75 Weekly Savings Built</span></div>
+            <div class="week-title"><span>Week 6 (Wednesday, Dec 16)</span></div>
+            <div class="metrics-bar">
+                <span>📉 Est. Debt Remaining: <span class="debt-metric">$17,851.71</span></span>
+                <span>💰 Total Bank Savings: <span class="savings-metric">$450.00</span></span>
+            </div>
             <div class="todo-item"><input type="checkbox"><div><b>Mission Lane Standard:</b> Pay full payload <span class="amount">$446.77</span>.</div></div>
         </div>
+
         <div class="week-card">
-            <div class="week-title"><span>Week 7 (Wednesday, Dec 23)</span> <span class="saving-tag">+$75 Weekly Savings Built</span></div>
-            <div class="todo-item"><input type="checkbox"><div><b>PayPal / Happen / CapOne Minimums:</b> Pay combined total due <span class="amount">$314.00</span>.</div></div>
-            <div class="todo-item"><input type="checkbox"><div><b>OneMain Financial (Due Dec 28):</b> Pay full structural minimum due <span class="amount">$246.02</span> <i>($132.77 from debt payload + $113.25 from fixed monthly needs margin)</i>.</div></div>
+            <div class="week-title"><span>Week 7 (Wednesday, Dec 23)</span></div>
+            <div class="metrics-bar">
+                <span>📉 Est. Debt Remaining: <span class="debt-metric">$17,404.94</span></span>
+                <span>💰 Total Bank Savings: <span class="savings-metric">$525.00</span></span>
+            </div>
+            <div class="todo-item"><input type="checkbox"><div><b>PayPal / Happen / CapOne Minimums:</b> Pay total <span class="amount">$314.00</span>.</div></div>
+            <div class="todo-item"><input type="checkbox"><div><b>OneMain Financial (Due Dec 28):</b> Pay full minimum <span class="amount">$246.02</span> <i>($132.77 from debt pool + $113.25 from bills cushion)</i>.</div></div>
         </div>
+
         <div class="week-card">
-            <div class="week-title"><span>Week 8 (Wednesday, Dec 30)</span> <span class="saving-tag">+$75 Weekly Savings Built</span></div>
+            <div class="week-title"><span>Week 8 (Wednesday, Dec 30)</span></div>
+            <div class="metrics-bar">
+                <span>📉 Est. Debt Remaining: <span class="debt-metric">$16,958.17</span></span>
+                <span>💰 Total Bank Savings: <span class="savings-metric">$600.00</span></span>
+            </div>
             <div class="todo-item"><input type="checkbox"><div><b>Affirm (Due Jan 6):</b> Pay standard milestone <span class="amount">$260.00</span>.</div></div>
             <div class="todo-item"><input type="checkbox"><div><b>Mission Lane Standard:</b> Route remainder payload <span class="amount">$186.77</span>.</div></div>
         </div>
@@ -90,27 +128,17 @@
     <!-- JANUARY 2027 -->
     <div class="month-section">
         <div class="month-header">January 2027 — Closing Target Cards</div>
+        
         <div class="week-card">
-            <div class="week-title"><span>Week 9 (Wednesday, Jan 6)</span> <span class="saving-tag">+$75 Weekly Savings Built</span></div>
-            <div class="todo-item"><input type="checkbox"><div><b>Mission Lane Standard:</b> Send exactly <span class="amount">$231.02</span> to hit zero. 🎉 <b>Card Wiped & Closed!</b></div></div>
+            <div class="week-title"><span>Week 9 (Wednesday, Jan 6)</span></div>
+            <div class="metrics-bar">
+                <span>📉 Est. Debt Remaining: <span class="debt-metric">$16,511.40</span></span>
+                <span>💰 Total Bank Savings: <span class="savings-metric">$675.00</span></span>
+            </div>
+            <div class="todo-item"><input type="checkbox"><div><b>Mission Lane Standard:</b> Send exactly <span class="amount">$231.02</span> to hit zero. 🎉 <b>Card Closed!</b></div></div>
             <div class="todo-item"><input type="checkbox"><div><b>Ollo:</b> Roll remainder payload <span class="amount">$215.75</span> directly here.</div></div>
         </div>
-        <div class="week-card">
-            <div class="week-title"><span>Week 10 (Wednesday, Jan 13)</span> <span class="saving-tag">+$75 Weekly Savings Built</span></div>
-            <div class="todo-item"><input type="checkbox"><div><b>Ollo (Due Jan 18):</b> Pay full payload <span class="amount">$446.77</span>.</div></div>
-        </div>
-        <div class="week-card">
-            <div class="week-title"><span>Week 11 (Wednesday, Jan 20)</span> <span class="saving-tag">+$75 Weekly Savings Built</span></div>
-            <div class="todo-item"><input type="checkbox"><div><b>Ollo:</b> Pay full payload <span class="amount">$446.77</span>.</div></div>
-        </div>
-        <div class="week-card">
-            <div class="week-title"><span>Week 12 (Wednesday, Jan 27)</span> <span class="saving-tag">+$75 Weekly Savings Built</span></div>
-            <div class="todo-item"><input type="checkbox"><div><b>PayPal / Happen / CapOne Minimums:</b> Pay total <span class="amount">$314.00</span>.</div></div>
-            <div class="todo-item"><input type="checkbox"><div><b>OneMain Financial (Due Jan 28):</b> Pay full structural minimum due <span class="amount">$246.02</span> <i>($132.77 from debt payload + $113.25 from fixed monthly needs margin)</i>.</div></div>
-        </div>
-    </div>
 
-    <div class="nav-footer">📂 Phase 1 Savings Account Built: +$900.00 cash • Proceed to Phase 2</div>
-</div>
-</body>
-</html>
+        <div class="week-card">
+            <div class="week-title"><span>Week 10 (Wednesday, Jan 13)</span></div>
+            <div class="metrics-bar">
