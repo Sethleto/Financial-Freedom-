@@ -14,15 +14,29 @@
         .month-header { background-color: #1e3a8a; color: white; padding: 10px 15px; font-weight: bold; font-size: 15px; }
         .week-card { padding: 15px; border-bottom: 1px solid #e5e7eb; background-color: #fafafa; }
         .week-card:last-child { border-bottom: none; }
-        .week-title { font-weight: bold; color: #374151; font-size: 14px; margin-bottom: 4px; display: flex; justify-content: space-between; }
-        .metrics-bar { display: flex; justify-content: space-between; background: #f3f4f6; padding: 4px 10px; border-radius: 4px; font-size: 12px; margin-bottom: 10px; border: 1px solid #e5e7eb; }
+        .week-title { font-weight: bold; color: #374151; font-size: 14px; margin-bottom: 6px; display: flex; justify-content: space-between; align-items: center; }
+        .weekly-total-badge { font-size: 12px; background: #e0e7ff; color: #1e3a8a; padding: 2px 8px; border-radius: 12px; font-weight: 600; }
+        .weekly-total-badge.short { background: #fef2f2; color: #b91c1c; }
+        .weekly-total-badge.over { background: #f0fdf4; color: #15803d; }
+        .metrics-bar { display: flex; justify-content: space-between; background: #f3f4f6; padding: 6px 10px; border-radius: 4px; font-size: 12px; margin-bottom: 12px; border: 1px solid #e5e7eb; }
         .debt-metric { color: #b91c1c; font-weight: bold; }
         .savings-metric { color: #15803d; font-weight: bold; }
-        .todo-item { display: flex; align-items: flex-start; margin-bottom: 8px; font-size: 13px; }
-        .todo-item input[type="checkbox"] { margin-right: 10px; margin-top: 2px; width: 15px; height: 15px; cursor: pointer; }
-        .amount { font-weight: bold; color: #dc2626; }
-        .amount.neutral { color: #4b5563; }
-        .nav-footer { text-align: center; font-size: 12px; margin-top: 20px; font-weight: bold; color: #1e3a8a; }
+        .todo-item { display: flex; align-items: flex-start; margin-bottom: 10px; font-size: 13px; transition: opacity 0.2s; }
+        .todo-item.completed { opacity: 0.55; }
+        .todo-item.completed .todo-text { text-decoration: line-through; }
+        .todo-item input[type="checkbox"] { margin-right: 10px; margin-top: 3px; width: 16px; height: 16px; cursor: pointer; flex-shrink: 0; }
+        .todo-text { flex: 1; }
+        .amount-wrapper { display: inline-flex; align-items: center; background: #fff; border: 1px solid #d1d5db; border-radius: 4px; padding: 1px 5px; margin: 0 3px; vertical-align: baseline; }
+        .amount-wrapper:focus-within { border-color: #1e3a8a; box-shadow: 0 0 0 2px rgba(30, 58, 138, 0.15); }
+        .currency-symbol { color: #dc2626; font-weight: bold; font-size: 13px; margin-right: 1px; }
+        .payment-input { width: 68px; border: none; outline: none; font-weight: bold; color: #dc2626; font-size: 13px; font-family: inherit; background: transparent; text-align: right; }
+        .payment-input::-webkit-outer-spin-button,
+        .payment-input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+        .payment-input[type=number] { -moz-appearance: textfield; }
+        .amount.neutral { font-weight: bold; color: #4b5563; }
+        .nav-footer { text-align: center; font-size: 12px; margin-top: 20px; font-weight: bold; color: #1e3a8a; display: flex; flex-direction: column; align-items: center; gap: 10px; }
+        .reset-btn { background: none; border: 1px solid #d1d5db; color: #6b7280; font-size: 11px; padding: 4px 10px; border-radius: 4px; cursor: pointer; }
+        .reset-btn:hover { background: #f3f4f6; color: #374151; }
     </style>
 </head>
 <body>
@@ -31,153 +45,307 @@
     <div class="subtitle">Months 1 - 3 • November 2026 – January 2027</div>
 
     <div class="protocol-box">
-        <strong>💼 Pocket Allocation Rule:</strong> From your weekly $1,116.00 pay, <b>keep $669.23</b> for structural living costs, family help, and savings ($75). Your weekly debt payload target is <b>$446.77</b>.
+        <strong>💼 Pocket Allocation Rule:</strong> From your weekly $1,116.00 pay, <b>keep $669.23</b> for structural living costs, family help, and savings ($75). Your weekly debt payload target is <b>$446.77</b>. <br>
+        <span style="font-size: 12px; color: #166534;">💡 <i>Tip: Edit any red dollar amount below if you pay a different amount—all remaining debt balances recalculate automatically and save to your browser.</i></span>
     </div>
 
     <!-- NOVEMBER 2026 -->
     <div class="month-section">
         <div class="month-header">November 2026 — Catch-Up & Avalanche Ignition</div>
         
-        <div class="week-card">
-            <div class="week-title"><span>Week 1 (Wednesday, Nov 11)</span></div>
+        <div class="week-card" data-week="1">
+            <div class="week-title">
+                <span>Week 1 (Wednesday, Nov 11)</span>
+                <span class="weekly-total-badge">Paid: $446.77</span>
+            </div>
             <div class="metrics-bar">
                 <span>📉 Est. Debt Remaining: <span class="debt-metric">$19,783.44</span></span>
                 <span>💰 Total Bank Savings: <span class="savings-metric">$75.00</span></span>
             </div>
-            <div class="todo-item"><input type="checkbox"><div><b>Affirm (Overdue Missed 11/6):</b> Pay <span class="amount">$260.00</span> immediately to catch up.</div></div>
-            <div class="todo-item"><input type="checkbox"><div><b>Mission Lane Black (Due Nov 13):</b> Pay remaining payload pool <span class="amount">$186.77</span> via manual push.</div></div>
+            <div class="todo-item">
+                <input type="checkbox" id="cb-1">
+                <div class="todo-text"><b>Affirm (Overdue Missed 11/6):</b> Pay <span class="amount-wrapper"><span class="currency-symbol">$</span><input type="number" step="0.01" min="0" class="payment-input" id="amt-1" value="260.00" data-default="260.00"></span> immediately to catch up.</div>
+            </div>
+            <div class="todo-item">
+                <input type="checkbox" id="cb-2">
+                <div class="todo-text"><b>Mission Lane Black (Due Nov 13):</b> Pay remaining payload pool <span class="amount-wrapper"><span class="currency-symbol">$</span><input type="number" step="0.01" min="0" class="payment-input" id="amt-2" value="186.77" data-default="186.77"></span> via manual push.</div>
+            </div>
         </div>
 
-        <div class="week-card">
-            <div class="week-title"><span>Week 2 (Wednesday, Nov 18)</span></div>
+        <div class="week-card" data-week="2">
+            <div class="week-title">
+                <span>Week 2 (Wednesday, Nov 18)</span>
+                <span class="weekly-total-badge">Paid: $446.77</span>
+            </div>
             <div class="metrics-bar">
                 <span>📉 Est. Debt Remaining: <span class="debt-metric">$19,336.67</span></span>
                 <span>💰 Total Bank Savings: <span class="savings-metric">$150.00</span></span>
             </div>
-            <div class="todo-item"><input type="checkbox"><div><b>Ollo (Due Nov 18):</b> Pay standard minimum due <span class="amount">$34.00</span>.</div></div>
-            <div class="todo-item"><input type="checkbox"><div><b>Mission Lane Black (Avalanche Target):</b> Send full remaining payload surplus <span class="amount">$412.77</span>.</div></div>
+            <div class="todo-item">
+                <input type="checkbox" id="cb-3">
+                <div class="todo-text"><b>Ollo (Due Nov 18):</b> Pay standard minimum due <span class="amount-wrapper"><span class="currency-symbol">$</span><input type="number" step="0.01" min="0" class="payment-input" id="amt-3" value="34.00" data-default="34.00"></span>.</div>
+            </div>
+            <div class="todo-item">
+                <input type="checkbox" id="cb-4">
+                <div class="todo-text"><b>Mission Lane Black (Avalanche Target):</b> Send full remaining payload surplus <span class="amount-wrapper"><span class="currency-symbol">$</span><input type="number" step="0.01" min="0" class="payment-input" id="amt-4" value="412.77" data-default="412.77"></span>.</div>
+            </div>
         </div>
 
-        <div class="week-card">
-            <div class="week-title"><span>Week 3 (Wednesday, Nov 25)</span></div>
+        <div class="week-card" data-week="3">
+            <div class="week-title">
+                <span>Week 3 (Wednesday, Nov 25)</span>
+                <span class="weekly-total-badge">Paid: $560.02</span>
+            </div>
             <div class="metrics-bar">
                 <span>📉 Est. Debt Remaining: <span class="debt-metric">$18,889.90</span></span>
                 <span>💰 Total Bank Savings: <span class="savings-metric">$225.00</span></span>
             </div>
-            <div class="todo-item"><input type="checkbox"><div><b>PayPal (Due Nov 25):</b> Pay minimum due <span class="amount">$30.00</span>.</div></div>
-            <div class="todo-item"><input type="checkbox"><div><b>Happen Bank (Due Nov 26):</b> Pay minimum due <span class="amount">$252.00</span>.</div></div>
-            <div class="todo-item"><input type="checkbox"><div><b>Capital One (Due Nov 27):</b> Pay minimum due <span class="amount">$32.00</span>.</div></div>
-            <div class="todo-item"><input type="checkbox"><div><b>OneMain Financial (Due Nov 28):</b> Pay full required minimum due <span class="amount">$246.02</span> <i>($132.77 from debt payload + $113.25 from fixed monthly needs margin)</i>.</div></div>
+            <div class="todo-item">
+                <input type="checkbox" id="cb-5">
+                <div class="todo-text"><b>PayPal (Due Nov 25):</b> Pay minimum due <span class="amount-wrapper"><span class="currency-symbol">$</span><input type="number" step="0.01" min="0" class="payment-input" id="amt-5" value="30.00" data-default="30.00"></span>.</div>
+            </div>
+            <div class="todo-item">
+                <input type="checkbox" id="cb-6">
+                <div class="todo-text"><b>Happen Bank (Due Nov 26):</b> Pay minimum due <span class="amount-wrapper"><span class="currency-symbol">$</span><input type="number" step="0.01" min="0" class="payment-input" id="amt-6" value="252.00" data-default="252.00"></span>.</div>
+            </div>
+            <div class="todo-item">
+                <input type="checkbox" id="cb-7">
+                <div class="todo-text"><b>Capital One (Due Nov 27):</b> Pay minimum due <span class="amount-wrapper"><span class="currency-symbol">$</span><input type="number" step="0.01" min="0" class="payment-input" id="amt-7" value="32.00" data-default="32.00"></span>.</div>
+            </div>
+            <div class="todo-item">
+                <input type="checkbox" id="cb-8">
+                <div class="todo-text"><b>OneMain Financial (Due Nov 28):</b> Pay full required minimum due <span class="amount-wrapper"><span class="currency-symbol">$</span><input type="number" step="0.01" min="0" class="payment-input" id="amt-8" value="246.02" data-default="246.02"></span> <i>($132.77 from debt payload + $113.25 from fixed monthly needs margin)</i>.</div>
+            </div>
         </div>
     </div>
-
     <!-- DECEMBER 2026 -->
     <div class="month-section">
         <div class="month-header">December 2026 — Avalanche Build</div>
         
-        <div class="week-card">
-            <div class="week-title"><span>Week 4 (Wednesday, Dec 2)</span></div>
+        <div class="week-card" data-week="4">
+            <div class="week-title">
+                <span>Week 4 (Wednesday, Dec 2)</span>
+                <span class="weekly-total-badge">Paid: $446.77</span>
+            </div>
             <div class="metrics-bar">
                 <span>📉 Est. Debt Remaining: <span class="debt-metric">$18,443.13</span></span>
                 <span>💰 Total Bank Savings: <span class="savings-metric">$300.00</span></span>
             </div>
-            <div class="todo-item"><input type="checkbox"><div><b>Fixed Monthly Outflows:</b> Disburse <span class="amount neutral">$1,000 Rent</span> and send <span class="amount neutral">$1,000 Family Support</span> from holding pool.</div></div>
-            <div class="todo-item"><input type="checkbox"><div><b>Mission Lane Black (Avalanche Target):</b> Fund full avalanche payload <span class="amount">$446.77</span> directly into principal.</div></div>
+            <div class="todo-item">
+                <input type="checkbox" id="cb-9">
+                <div class="todo-text"><b>Fixed Monthly Outflows:</b> Disburse <span class="amount neutral">$1,000 Rent</span> and send <span class="amount neutral">$1,000 Family Support</span> from holding pool.</div>
+            </div>
+            <div class="todo-item">
+                <input type="checkbox" id="cb-10">
+                <div class="todo-text"><b>Mission Lane Black (Avalanche Target):</b> Fund full avalanche payload <span class="amount-wrapper"><span class="currency-symbol">$</span><input type="number" step="0.01" min="0" class="payment-input" id="amt-10" value="446.77" data-default="446.77"></span> directly into principal.</div>
+            </div>
         </div>
 
-        <div class="week-card">
-            <div class="week-title"><span>Week 5 (Wednesday, Dec 9)</span></div>
+        <div class="week-card" data-week="5">
+            <div class="week-title">
+                <span>Week 5 (Wednesday, Dec 9)</span>
+                <span class="weekly-total-badge">Paid: $446.77</span>
+            </div>
             <div class="metrics-bar">
                 <span>📉 Est. Debt Remaining: <span class="debt-metric">$17,996.36</span></span>
                 <span>💰 Total Bank Savings: <span class="savings-metric">$375.00</span></span>
             </div>
-            <div class="todo-item"><input type="checkbox"><div><b>Mission Lane Black:</b> Send exactly <span class="amount">$363.69</span> to clear to true zero. 🎉 <b>Card Closed!</b></div></div>
-            <div class="todo-item"><input type="checkbox"><div><b>Mission Lane Standard:</b> Roll remaining weekly payload surplus <span class="amount">$83.08</span> here.</div></div>
+            <div class="todo-item">
+                <input type="checkbox" id="cb-11">
+                <div class="todo-text"><b>Mission Lane Black:</b> Send exactly <span class="amount-wrapper"><span class="currency-symbol">$</span><input type="number" step="0.01" min="0" class="payment-input" id="amt-11" value="363.69" data-default="363.69"></span> to clear to true zero. 🎉 <b>Card Closed!</b></div>
+            </div>
+            <div class="todo-item">
+                <input type="checkbox" id="cb-12">
+                <div class="todo-text"><b>Mission Lane Standard:</b> Roll remaining weekly payload surplus <span class="amount-wrapper"><span class="currency-symbol">$</span><input type="number" step="0.01" min="0" class="payment-input" id="amt-12" value="83.08" data-default="83.08"></span> here.</div>
+            </div>
         </div>
 
-        <div class="week-card">
-            <div class="week-title"><span>Week 6 (Wednesday, Dec 16)</span></div>
+        <div class="week-card" data-week="6">
+            <div class="week-title">
+                <span>Week 6 (Wednesday, Dec 16)</span>
+                <span class="weekly-total-badge">Paid: $446.77</span>
+            </div>
             <div class="metrics-bar">
                 <span>📉 Est. Debt Remaining: <span class="debt-metric">$17,549.59</span></span>
                 <span>💰 Total Bank Savings: <span class="savings-metric">$450.00</span></span>
             </div>
-            <div class="todo-item"><input type="checkbox"><div><b>Mission Lane Standard:</b> Pay full payload <span class="amount">$446.77</span>.</div></div>
+            <div class="todo-item">
+                <input type="checkbox" id="cb-13">
+                <div class="todo-text"><b>Mission Lane Standard:</b> Pay full payload <span class="amount-wrapper"><span class="currency-symbol">$</span><input type="number" step="0.01" min="0" class="payment-input" id="amt-13" value="446.77" data-default="446.77"></span>.</div>
+            </div>
         </div>
 
-        <div class="week-card">
-            <div class="week-title"><span>Week 7 (Wednesday, Dec 23)</span></div>
+        <div class="week-card" data-week="7">
+            <div class="week-title">
+                <span>Week 7 (Wednesday, Dec 23)</span>
+                <span class="weekly-total-badge">Paid: $560.02</span>
+            </div>
             <div class="metrics-bar">
                 <span>📉 Est. Debt Remaining: <span class="debt-metric">$17,102.82</span></span>
                 <span>💰 Total Bank Savings: <span class="savings-metric">$525.00</span></span>
             </div>
-            <div class="todo-item"><input type="checkbox"><div><b>PayPal / Happen / CapOne Minimums:</b> Pay combined total due <span class="amount">$314.00</span>.</div></div>
-            <div class="todo-item"><input type="checkbox"><div><b>OneMain Financial (Due Dec 28):</b> Pay full structural minimum due <span class="amount">$246.02</span>.</div></div>
+            <div class="todo-item">
+                <input type="checkbox" id="cb-14">
+                <div class="todo-text"><b>PayPal / Happen / CapOne Minimums:</b> Pay combined total due <span class="amount-wrapper"><span class="currency-symbol">$</span><input type="number" step="0.01" min="0" class="payment-input" id="amt-14" value="314.00" data-default="314.00"></span>.</div>
+            </div>
+            <div class="todo-item">
+                <input type="checkbox" id="cb-15">
+                <div class="todo-text"><b>OneMain Financial (Due Dec 28):</b> Pay full structural minimum due <span class="amount-wrapper"><span class="currency-symbol">$</span><input type="number" step="0.01" min="0" class="payment-input" id="amt-15" value="246.02" data-default="246.02"></span>.</div>
+            </div>
         </div>
 
-        <div class="week-card">
-            <div class="week-title"><span>Week 8 (Wednesday, Dec 30)</span></div>
+        <div class="week-card" data-week="8">
+            <div class="week-title">
+                <span>Week 8 (Wednesday, Dec 30)</span>
+                <span class="weekly-total-badge">Paid: $446.77</span>
+            </div>
             <div class="metrics-bar">
                 <span>📉 Est. Debt Remaining: <span class="debt-metric">$16,656.05</span></span>
                 <span>💰 Total Bank Savings: <span class="savings-metric">$600.00</span></span>
             </div>
-            <div class="todo-item"><input type="checkbox"><div><b>Affirm (Due Jan 6):</b> Pay standard milestone payment <span class="amount">$260.00</span>.</div></div>
-            <div class="todo-item"><input type="checkbox"><div><b>Mission Lane Standard:</b> Route remainder payload surplus <span class="amount">$186.77</span>.</div></div>
+            <div class="todo-item">
+                <input type="checkbox" id="cb-16">
+                <div class="todo-text"><b>Affirm (Due Jan 6):</b> Pay standard milestone payment <span class="amount-wrapper"><span class="currency-symbol">$</span><input type="number" step="0.01" min="0" class="payment-input" id="amt-16" value="260.00" data-default="260.00"></span>.</div>
+            </div>
+            <div class="todo-item">
+                <input type="checkbox" id="cb-17">
+                <div class="todo-text"><b>Mission Lane Standard:</b> Route remainder payload surplus <span class="amount-wrapper"><span class="currency-symbol">$</span><input type="number" step="0.01" min="0" class="payment-input" id="amt-17" value="186.77" data-default="186.77"></span>.</div>
+            </div>
         </div>
     </div>
 
-    <!-- JANUARY 2027 -->
-    <div class="month-section">
-        <div class="month-header">January 2027 — Closing Target Cards</div>
-        
-        <div class="week-card">
-            <div class="week-title"><span>Week 9 (Wednesday, Jan 6)</span></div>
-            <div class="metrics-bar">
-                <span>📉 Est. Debt Remaining: <span class="debt-metric">$16,209.28</span></span>
-                <span>💰 Total Bank Savings: <span class="savings-metric">$675.00</span></span>
-            </div>
-            <div class="todo-item">
-                <input type="checkbox">
-                <div><b>Mission Lane Standard:</b> Send exactly <span class="amount">$231.02</span> to hit zero. 🎉 <b>Card Wiped & Closed!</b></div>
-            </div>
-            <div class="todo-item">
-                <input type="checkbox">
-                <div><b>Ollo Card:</b> Roll remainder payload surplus <span class="amount">$215.75</span> directly here.</div>
-            </div>
-        </div>
 
-        <div class="week-card">
-            <div class="week-title"><span>Week 10 (Wednesday, Jan 13)</span></div>
-            <div class="metrics-bar">
-                <span>📉 Est. Debt Remaining: <span class="debt-metric">$15,762.51</span></span>
-                <span>💰 Total Bank Savings: <span class="savings-metric">$750.00</span></span>
-            </div>
-            <div class="todo-item"><input type="checkbox"><div><b>Ollo Card (Due Jan 18):</b> Pay full payload <span class="amount">$446.77</span>.</div></div>
-        </div>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const STORAGE_KEY = 'phase1_debt_tracker_v1';
+        const STARTING_DEBT = 20230.21;
+        const WEEKLY_TARGET = 446.77;
 
-        <div class="week-card">
-            <div class="week-title"><span>Week 11 (Wednesday, Jan 20)</span></div>
-            <div class="metrics-bar">
-                <span>📉 Est. Debt Remaining: <span class="debt-metric">$15,315.74</span></span>
-                <span>💰 Total Bank Savings: <span class="savings-metric">$825.00</span></span>
-            </div>
-            <div class="todo-item"><input type="checkbox"><div><b>Ollo Card:</b> Pay full payload <span class="amount">$446.77</span>.</div></div>
-        </div>
+        const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+        const paymentInputs = document.querySelectorAll('.payment-input');
+        const weekCards = document.querySelectorAll('.week-card');
+        const resetBtn = document.getElementById('reset-btn');
 
-        <div class="week-card">
-            <div class="week-title"><span>Week 12 (Wednesday, Jan 27)</span></div>
-            <div class="metrics-bar">
-                <span>📉 Est. Debt Remaining: <span class="debt-metric">$14,868.97</span></span>
-                <span>💰 Total Bank Savings: <span class="savings-metric">$900.00</span></span>
-            </div>
-            <div class="todo-item"><input type="checkbox"><div><b>PayPal / Happen / CapOne Minimums:</b> Pay total <span class="amount">$314.00</span>.</div></div>
-            <div class="todo-item"><input type="checkbox"><div><b>OneMain Financial (Due Jan 28):</b> Pay full structural minimum <span class="amount">$246.02</span>.</div></div>
-        </div>
-    </div> <!-- Closes the month-section tag -->
+        function formatCurrency(num) {
+            return '$' + num.toLocaleString('en-US', {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2
+            });
+        }
 
-    <div class="nav-footer">
-        📂 Phase 1 Complete • Open phase2_installments.html for next steps
-    </div>
-</div> <!-- Closes the container tag -->
+        function saveState() {
+            const state = {
+                checkboxes: {},
+                amounts: {}
+            };
+            checkboxes.forEach(cb => {
+                state.checkboxes[cb.id] = cb.checked;
+            });
+            paymentInputs.forEach(input => {
+                state.amounts[input.id] = input.value;
+            });
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+        }
+
+        function loadState() {
+            const saved = localStorage.getItem(STORAGE_KEY);
+            if (!saved) return;
+            try {
+                const state = JSON.parse(saved);
+                if (state.checkboxes) {
+                    checkboxes.forEach(cb => {
+                        if (state.checkboxes[cb.id] !== undefined) {
+                            cb.checked = state.checkboxes[cb.id];
+                        }
+                    });
+                }
+                if (state.amounts) {
+                    paymentInputs.forEach(input => {
+                        if (state.amounts[input.id] !== undefined) {
+                            input.value = state.amounts[input.id];
+                        }
+                    });
+                }
+            } catch (e) {
+                console.error('Failed to load saved state:', e);
+            }
+        }
+
+        function recalculateAll() {
+            checkboxes.forEach(cb => {
+                const todoItem = cb.closest('.todo-item');
+                if (cb.checked) {
+                    todoItem.classList.add('completed');
+                } else {
+                    todoItem.classList.remove('completed');
+                }
+            });
+
+            let currentDebt = STARTING_DEBT;
+
+            weekCards.forEach(card => {
+                const weekInputs = card.querySelectorAll('.payment-input');
+                let weeklyPaid = 0;
+
+                weekInputs.forEach(input => {
+                    const val = parseFloat(input.value);
+                    if (!isNaN(val) && val >= 0) {
+                        weeklyPaid += val;
+                    }
+                });
+
+                currentDebt = Math.max(0, currentDebt - weeklyPaid);
+
+                const debtMetric = card.querySelector('.debt-metric');
+                if (debtMetric) {
+                    debtMetric.textContent = formatCurrency(currentDebt);
+                }
+
+                const badge = card.querySelector('.weekly-total-badge');
+                if (badge) {
+                    badge.textContent = 'Paid: ' + formatCurrency(weeklyPaid);
+                    badge.classList.remove('short', 'over');
+                    if (weeklyPaid < WEEKLY_TARGET - 0.01) {
+                        badge.classList.add('short');
+                    } else if (weeklyPaid > WEEKLY_TARGET + 0.01) {
+                        badge.classList.add('over');
+                    }
+                }
+            });
+        }
+
+        checkboxes.forEach(cb => {
+            cb.addEventListener('change', () => {
+                recalculateAll();
+                saveState();
+            });
+        });
+
+        paymentInputs.forEach(input => {
+            input.addEventListener('input', () => {
+                recalculateAll();
+                saveState();
+            });
+            input.addEventListener('blur', () => {
+                const val = parseFloat(input.value);
+                input.value = (!isNaN(val) && val >= 0) ? val.toFixed(2) : '0.00';
+                recalculateAll();
+                saveState();
+            });
+        });
+
+        resetBtn.addEventListener('click', () => {
+            if (confirm('Reset all checkboxes and payment amounts back to their original defaults?')) {
+                localStorage.removeItem(STORAGE_KEY);
+                checkboxes.forEach(cb => cb.checked = false);
+                paymentInputs.forEach(input => input.value = input.dataset.default);
+                recalculateAll();
+            }
+        });
+
+        loadState();
+        recalculateAll();
+    });
+</script>
 </body>
 </html>
-
